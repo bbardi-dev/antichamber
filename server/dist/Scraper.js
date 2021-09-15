@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scraper = void 0;
+const dayjs_1 = __importDefault(require("dayjs"));
 const puppeteer_1 = __importDefault(require("puppeteer"));
 async function scraper(pageToGo, scrapeSelector) {
     let browser;
@@ -19,7 +20,7 @@ async function scraper(pageToGo, scrapeSelector) {
                     source: "",
                     title: (_a = it.textContent) === null || _a === void 0 ? void 0 : _a.replace(/(\r\n|\n|\r)/gm, "").trim(),
                     link: it.getAttribute("href"),
-                    createdAt: new Date().toString(),
+                    createdAt: (0, dayjs_1.default)().format("YYYY/MM/DD"),
                 });
             });
         });

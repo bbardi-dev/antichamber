@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import puppeteer, { Browser } from "puppeteer";
 
 export async function scraper(pageToGo: string, scrapeSelector: string) {
@@ -15,7 +16,7 @@ export async function scraper(pageToGo: string, scrapeSelector: string) {
         source: "",
         title: it.textContent?.replace(/(\r\n|\n|\r)/gm, "").trim(),
         link: it.getAttribute("href"),
-        createdAt: new Date().toString(),
+        createdAt: dayjs().format("YYYY/MM/DD"),
       }));
     });
 

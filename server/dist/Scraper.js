@@ -4,27 +4,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scraper = void 0;
+const client_1 = __importDefault(require("./prisma/client"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const puppeteer_1 = __importDefault(require("puppeteer"));
 async function scraper(pageToGo, scrapeSelector) {
     let browser;
     try {
-        console.log("Opening browser...");
         browser = await puppeteer_1.default.launch();
         const page = await browser.newPage();
         await page.goto(pageToGo);
         const final = await page.$$eval(scrapeSelector, (items) => {
-            return items.map((it) => {
-                var _a;
+            return items
+                .map((it) => {
+                var _a, _b, _c;
                 return ({
                     source: "",
-                    title: (_a = it.textContent) === null || _a === void 0 ? void 0 : _a.replace(/(\r\n|\n|\r)/gm, "").trim(),
-                    link: it.getAttribute("href"),
-                    createdAt: (0, dayjs_1.default)().format("YYYY/MM/DD"),
+                    title: (_b = (_a = it.textContent) === null || _a === void 0 ? void 0 : _a.replace(/(\r\n|\n|\r)/gm, "").trim()) !== null && _b !== void 0 ? _b : "",
+                    link: (_c = it.getAttribute("href")) !== null && _c !== void 0 ? _c : "",
+                    createdAt: "",
                 });
-            });
+            })
+                .slice(0, 24);
         });
-        final.forEach((f) => (f.source = pageToGo));
+        final.forEach((f) => ((f.source = pageToGo), (f.createdAt = (0, dayjs_1.default)().format("YYYY/MM/DD"))));
+        await client_1.default.article.createMany({
+            data: final,
+            skipDuplicates: true,
+        });
         console.log(pageToGo, final, final.length);
         await browser.close();
     }
@@ -33,4 +39,4 @@ async function scraper(pageToGo, scrapeSelector) {
     }
 }
 exports.scraper = scraper;
-//# sourceMappingURL=Scraper.js.map
+//# sourceMappingURL=scraper.js.map

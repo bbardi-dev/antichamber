@@ -10,7 +10,7 @@ export default function (app: Express) {
       //general all articles
       if (Object.keys(req.query).length === 0) {
         articles = await prisma.article.findMany();
-        res.status(200).json(articles);
+        return res.status(200).json(articles);
       }
 
       if (
@@ -19,7 +19,7 @@ export default function (app: Express) {
             k === "title" || k === "source" || k === "link" || k === "createdAt"
         )
       ) {
-        res.status(404).send("Cannot find resource");
+        return res.status(404).send("Cannot find resource");
       }
 
       //handle query params
@@ -37,9 +37,11 @@ export default function (app: Express) {
         where: selectedArticles,
       });
 
-      res.status(200).json(articles);
+      return res.status(200).json(articles);
     } catch (error) {
-      res.status(500).send("Internal Server Error, Please try again later");
+      return res
+        .status(500)
+        .send("Internal Server Error, Please try again later");
     }
   });
 }

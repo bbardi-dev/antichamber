@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Prata&family=Roboto&display=swap");
 
+.react-date-picker {
+  background-color: #fff;
+}
+
 html,
 body {
   height: 100%;
@@ -24,7 +28,7 @@ a {
     color: initial;
   }
   &:hover {
-    color: #eee;
+    color: blueviolet;
   }
 }
 
@@ -65,6 +69,34 @@ p {
   }
 }
 
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  margin: 0.5rem;
+}
+
 .news-grid {
   display: flex;
+}
+
+.search {
+  input {
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    font-size: 1.3rem;
+    padding: 1rem;
+    height: 2.5rem;
+    width: 420px;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+article {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }

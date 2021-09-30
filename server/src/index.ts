@@ -17,6 +17,7 @@ const main = async () => {
     log.info(`Listening on ${config.server.hostname}/${config.server.port}`);
     routes(app);
   });
+
   setInterval(async () => {
     await scraper("https://444.hu", ".item__title > a");
     await scraper("https://telex.hu", ".article_title > a");

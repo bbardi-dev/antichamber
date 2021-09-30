@@ -1,6 +1,10 @@
-import dayjs from "dayjs";
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
+import dayjs from "dayjs";
+import DatePicker from "react-date-picker/dist/entry.nostyle";
+import { useEffect, useState } from "react";
+import { sources } from "../constants";
+import { SearchBar } from "../Components/SearchBar";
 
 interface Article {
   createdAt: string;
@@ -13,21 +17,79 @@ interface Props {
   articles: Article[];
 }
 
-const sources = ["444.hu", "telex.hu", "index.hu", "hvg.hu", "24.hu", "888.hu"];
-
 const Home: NextPage<Props> = ({ articles }) => {
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [currentArticles, setCurrentArticles] = useState(articles);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (date !== null) {
+      fetch(
+        `http://localhost:4000/articles?createdAt=${dayjs(date).format(
+          "YYYY/MM/DD"
+        )}`
+      )
+        .then((res) => res.json())
+        .then((data) => setCurrentArticles(data))
+        .catch((err) => console.log(err));
+    }
+  }, [date]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0) {
+      setDate(new Date());
+    }
+  }, [searchQuery]);
+
   return (
     <>
-      <h1>Mai Hírek</h1>
+      <h1>Hírek</h1>
+      <div className='article-filters'>
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setCurrentArticles={setCurrentArticles}
+          setDate={setDate}
+        />
+        <DatePicker
+          onChange={(e: Date) => {
+            setDate(e);
+            setSearchQuery("");
+          }}
+          value={date}
+        />
+      </div>
       <div className='news-grid'>
-        {sources.map((source) => (
-          <div key={source}>
-            <h2 key={source}>{source}</h2>
-            {articles.map((a) =>
-              a.source.slice(8) === source ? <p>{a.title}</p> : null
-            )}
-          </div>
-        ))}
+        {currentArticles.length > 0 ? (
+          sources.map((source) => (
+            <div className='source-col' key={source}>
+              <h2 className={`source-head ${source.replace(/^.*?:\/\//, "")}`}>
+                <a href={source}>{source.replace(/^.*?:\/\//, "")}</a>
+              </h2>
+              {currentArticles.map((a) =>
+                a.source === source ? (
+                  <article
+                    className={source.replace(/^.*?:\/\//, "")}
+                    key={a.link}
+                  >
+                    <a
+                      href={
+                        a.link.includes("https://")
+                          ? a.link
+                          : `${a.source}${a.link}`
+                      }
+                    >
+                      <p>{a.title}</p>
+                    </a>
+                    <span>{a.createdAt}</span>
+                  </article>
+                ) : null
+              )}
+            </div>
+          ))
+        ) : (
+          <h2>Nem találhatóak cikkek az adott paraméterekkel</h2>
+        )}
       </div>
     </>
   );

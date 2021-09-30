@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Prata&family=Roboto&display=swap");
 
+$green: #29af0a;
+$dark-blue: #113355;
+$orange: #ff9900;
+$orange-red: #e25900;
+$red: #fc4842;
+$pink: #e01365;
+
 .react-date-picker {
   background-color: #fff;
 }
@@ -28,7 +35,7 @@ a {
     color: initial;
   }
   &:hover {
-    color: blueviolet;
+    color: #3d5af1;
   }
 }
 
@@ -40,33 +47,15 @@ h1 {
 
 h2 {
   font-size: 36px;
+  a {
+    &:hover {
+      color: #000;
+    }
+  }
 }
 
 p {
   font-size: 18px;
-}
-
-.bg {
-  &:before {
-    content: "";
-    background: center / cover no-repeat url("/main-bg.jpg");
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -10;
-  }
-  &:after {
-    content: "";
-    background-color: rgba(#fff, 0.6);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -10;
-  }
 }
 
 .layout {
@@ -74,29 +63,135 @@ p {
   flex-direction: column;
   align-items: center;
   justify-items: center;
-  margin: 0.5rem;
-}
-
-.news-grid {
-  display: flex;
-}
-
-.search {
-  input {
-    background-color: #fff;
-    border: 0;
-    border-radius: 2px;
-    font-size: 1.3rem;
-    padding: 1rem;
-    height: 2.5rem;
-    width: 420px;
-    &:focus {
-      outline: none;
+  .bg {
+    &::before {
+      content: "";
+      background: center / cover no-repeat url("/main-bg.jpg");
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -10;
+    }
+    &::after {
+      content: "";
+      background-color: rgba(#fff, 0.7);
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -10;
     }
   }
-}
-
-article {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  .article-filters {
+    display: flex;
+    .search {
+      input {
+        background-color: #fff;
+        border: 0;
+        border-radius: 2px;
+        padding: 1rem;
+        font-size: 0.75rem;
+        width: 150px;
+        height: 1.5rem;
+        @media (min-width: 420px) {
+          width: 240px;
+        }
+        @media (min-width: 768px) {
+          padding: 1rem;
+          font-size: 1rem;
+          width: 300px;
+          height: 2rem;
+        }
+        @media (min-width: 1024px) {
+          padding: 1rem;
+          font-size: 1.3rem;
+          width: 420px;
+          height: 2.5rem;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+  .news-grid {
+    width: 100%;
+    display: grid;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1em;
+    .source-col {
+      width: 100%;
+      .source-head {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          background-color: #fff;
+          width: 48%;
+          height: 6px;
+          bottom: 0;
+          left: 0;
+          border-radius: 10px;
+          z-index: -10;
+        }
+        &[class*="444.hu"]::after {
+          background-color: $green;
+        }
+        &[class*="telex.hu"]::after {
+          background-color: $dark-blue;
+        }
+        &[class*="index.hu"]::after {
+          background-color: $orange;
+        }
+        &[class*="hvg.hu"]::after {
+          background-color: $orange-red;
+        }
+        &[class*="24.hu"]::after {
+          background-color: $red;
+        }
+        &[class*="888.hu"]::after {
+          background-color: $pink;
+        }
+      }
+      article {
+        position: relative;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.05rem;
+        &::after {
+          content: "";
+          position: absolute;
+          background-color: #fff;
+          width: 36%;
+          height: 3px;
+          bottom: -8%;
+          left: 0;
+          border-radius: 10px;
+          z-index: -10;
+        }
+        &[class*="444.hu"]::after {
+          background-color: $green;
+        }
+        &[class*="telex.hu"]::after {
+          background-color: $dark-blue;
+        }
+        &[class*="index.hu"]::after {
+          background-color: $orange;
+        }
+        &[class*="hvg.hu"]::after {
+          background-color: $orange-red;
+        }
+        &[class*="24.hu"]::after {
+          background-color: $red;
+        }
+        &[class*="888.hu"]::after {
+          background-color: $pink;
+        }
+      }
+    }
+  }
 }

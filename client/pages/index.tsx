@@ -23,42 +23,55 @@ const Home: NextPage<Props> = ({ articles }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetch(
-      `http://localhost:4000/articles?createdAt=${dayjs(date).format(
-        "YYYY/MM/DD"
-      )}`
-    )
-      .then((res) => res.json())
-      .then((data) => setCurrentArticles(data))
-      .catch((err) => console.log(err));
+    if (date !== null) {
+      fetch(
+        `http://localhost:4000/articles?createdAt=${dayjs(date).format(
+          "YYYY/MM/DD"
+        )}`
+      )
+        .then((res) => res.json())
+        .then((data) => setCurrentArticles(data))
+        .catch((err) => console.log(err));
+    }
   }, [date]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0) {
+      setDate(new Date());
+    }
+  }, [searchQuery]);
 
   return (
     <>
-      <h1>Mai Hírek</h1>
-      <SearchBar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        setCurrentArticles={setCurrentArticles}
-        setDate={setDate}
-      />
-      <DatePicker
-        onChange={(e: Date) => {
-          setDate(e);
-          setSearchQuery("");
-        }}
-        value={date}
-      />
+      <h1>Hírek</h1>
+      <div className='article-filters'>
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setCurrentArticles={setCurrentArticles}
+          setDate={setDate}
+        />
+        <DatePicker
+          onChange={(e: Date) => {
+            setDate(e);
+            setSearchQuery("");
+          }}
+          value={date}
+        />
+      </div>
       <div className='news-grid'>
         {currentArticles.length > 0 ? (
           sources.map((source) => (
             <div className='source-col' key={source}>
-              <h2 className='source-head' key={source}>
-                {source.slice(8)}
+              <h2 className={`source-head ${source.replace(/^.*?:\/\//, "")}`}>
+                <a href={source}>{source.replace(/^.*?:\/\//, "")}</a>
               </h2>
               {currentArticles.map((a) =>
                 a.source === source ? (
-                  <article>
+                  <article
+                    className={source.replace(/^.*?:\/\//, "")}
+                    key={a.link}
+                  >
                     <a
                       href={
                         a.link.includes("https://")
@@ -66,7 +79,7 @@ const Home: NextPage<Props> = ({ articles }) => {
                           : `${a.source}${a.link}`
                       }
                     >
-                      <p key={a.link}>{a.title}</p>
+                      <p>{a.title}</p>
                     </a>
                     <span>{a.createdAt}</span>
                   </article>

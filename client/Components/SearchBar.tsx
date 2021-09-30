@@ -24,11 +24,11 @@ export const SearchBar: NextPage<Props> = ({
   useEffect(() => {
     console.log(searchQuery);
     if (searchQuery.length > 2) {
-      setDate(null);
       fetch(`http://localhost:4000/articles?title=${searchQuery}`)
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));
+      setDate(null);
     }
   }, [searchQuery, setDate, setCurrentArticles]);
 

@@ -14,7 +14,7 @@ const main = async () => {
   app.use(cors());
   app.use(express.urlencoded({ extended: false }));
 
-  app.listen(config.server.port, config.server.hostname, () => {
+  app.listen(config.server.port, () => {
     log.info(`Listening on ${config.server.hostname}/${config.server.port}`);
     routes(app);
   });

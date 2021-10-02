@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = __importDefault(require("./prisma/client"));
 function default_1(app) {
+    app.get("/", (_, res) => res.send("Hello World"));
     app.get("/articles", async (req, res) => {
         try {
             let articles = [];

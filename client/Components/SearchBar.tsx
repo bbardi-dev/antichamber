@@ -24,7 +24,9 @@ export const SearchBar: NextPage<Props> = ({
   useEffect(() => {
     console.log(searchQuery);
     if (searchQuery.length > 2) {
-      fetch(`http://localhost:4000/articles?title=${searchQuery}`)
+      fetch(
+        `https://antichamber-news.herokuapp.com/articles?title=${searchQuery}`
+      )
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));

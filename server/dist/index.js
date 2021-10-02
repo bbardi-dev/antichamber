@@ -15,7 +15,7 @@ const main = async () => {
     app.use(express_1.default.json());
     app.use((0, cors_1.default)());
     app.use(express_1.default.urlencoded({ extended: false }));
-    app.listen(config_1.default.server.port, config_1.default.server.hostname, () => {
+    app.listen(config_1.default.server.port, () => {
         logger_1.default.info(`Listening on ${config_1.default.server.hostname}/${config_1.default.server.port}`);
         (0, routes_1.default)(app);
     });

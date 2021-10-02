@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "tsc -w",
-    "dev": "set NODE_ENV=dev && nodemon dist/index.js",
     "start": "node dist/index.js",
-    "start2": "ts-node src/index.ts"
+    "postinstall": "tsc",
+    "watch": "tsc -w",
+    "dev": "set NODE_ENV=dev && nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -37,5 +37,8 @@
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
+  },
+  "engines": {
+    "node": "14.16.0"
   }
 }

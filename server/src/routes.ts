@@ -3,6 +3,8 @@ import { Express, Request, Response } from "express";
 import { Article } from ".prisma/client";
 
 export default function (app: Express) {
+  app.get("/", (_, res) => res.send("Hello World"));
+
   app.get("/articles", async (req: Request, res: Response) => {
     try {
       let articles: Article[] = [];

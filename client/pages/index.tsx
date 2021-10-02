@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useEffect, useState } from "react";
 import { sources } from "../constants";
-//@ts-ignore
 import SearchBar from "../components/SearchBar";
 
 interface Article {

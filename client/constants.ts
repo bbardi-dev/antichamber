@@ -6,3 +6,5 @@ export const sources = [
   "https://24.hu",
   "https://888.hu",
 ];
+
+export const mainURL = "https://antichamber-news.herokuapp.com";

@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { mainURL } from "../constants";
 
 interface Article {
   createdAt: string;
@@ -24,9 +25,7 @@ const SearchBar: NextPage<Props> = ({
   useEffect(() => {
     console.log(searchQuery);
     if (searchQuery.length > 2) {
-      fetch(
-        `https://antichamber-news.herokuapp.com/articles?title=${searchQuery}`
-      )
+      fetch(`${mainURL}/articles?title=${searchQuery}`)
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));

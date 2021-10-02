@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import dayjs from "dayjs";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useEffect, useState } from "react";
-import { sources } from "../constants";
+import { mainURL, sources } from "../constants";
 import SearchBar from "../components/SearchBar";
 
 interface Article {
@@ -24,11 +24,7 @@ const Home: NextPage<Props> = ({ articles }) => {
 
   useEffect(() => {
     if (date !== null) {
-      fetch(
-        `https://antichamber-news.herokuapp.com/articles?createdAt=${dayjs(
-          date
-        ).format("YYYY/MM/DD")}`
-      )
+      fetch(`${mainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`)
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));
@@ -101,9 +97,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   //TODO:change later to proper hostname
 
   const res = await fetch(
-    `https://antichamber-news.herokuapp.com/articles?createdAt=${dayjs().format(
-      "YYYY/MM/DD"
-    )}`
+    `${mainURL}/articles?createdAt=${dayjs().format("YYYY/MM/DD")}`
   );
 
   const articles: Article[] = await res.json();

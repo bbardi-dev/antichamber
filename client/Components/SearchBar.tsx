@@ -15,7 +15,7 @@ interface Props {
   setSearchQuery: Dispatch<SetStateAction<string>>;
 }
 
-export const SearchBar: NextPage<Props> = ({
+const SearchBar: NextPage<Props> = ({
   setCurrentArticles,
   setDate,
   searchQuery,
@@ -47,3 +47,5 @@ export const SearchBar: NextPage<Props> = ({
     </div>
   );
 };
+
+export default SearchBar;

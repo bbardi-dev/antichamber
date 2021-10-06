@@ -1,9 +1,8 @@
-import type { NextPage } from "next";
-import { GetServerSideProps } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import dayjs from "dayjs";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useEffect, useState } from "react";
-import { mainURL, sources } from "../constants";
+import { apiMainURL, scrapedSources } from "../constants";
 import SearchBar from "../components/SearchBar";
 
 interface Article {
@@ -24,7 +23,9 @@ const Home: NextPage<Props> = ({ articles }) => {
 
   useEffect(() => {
     if (date !== null) {
-      fetch(`${mainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`)
+      fetch(
+        `${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`
+      )
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));
@@ -57,7 +58,7 @@ const Home: NextPage<Props> = ({ articles }) => {
       </div>
       {currentArticles.length > 0 ? (
         <div className='news-grid'>
-          {sources.map((source) => (
+          {scrapedSources.map((source) => (
             <div className='source-col' key={source}>
               <h2 className={`source-head ${source.replace(/^.*?:\/\//, "")}`}>
                 <a href={source}>{source.replace(/^.*?:\/\//, "")}</a>
@@ -93,11 +94,9 @@ const Home: NextPage<Props> = ({ articles }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  //TODO:change later to proper hostname
-
+export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
-    `${mainURL}/articles?createdAt=${dayjs().format("YYYY/MM/DD")}`
+    `${apiMainURL}/articles?createdAt=${dayjs().format("YYYY/MM/DD")}`
   );
 
   const articles: Article[] = await res.json();

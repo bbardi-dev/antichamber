@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { mainURL } from "../constants";
+import { apiMainURL } from "../constants";
 
 interface Article {
   createdAt: string;
@@ -25,7 +25,7 @@ const SearchBar: NextPage<Props> = ({
   useEffect(() => {
     console.log(searchQuery);
     if (searchQuery.length > 2) {
-      fetch(`${mainURL}/articles?title=${searchQuery}`)
+      fetch(`${apiMainURL}/articles?title=${searchQuery}`)
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));

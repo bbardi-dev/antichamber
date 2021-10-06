@@ -1,4 +1,4 @@
-export const sources = [
+export const scrapedSources = [
   "https://444.hu",
   "https://telex.hu",
   "https://index.hu",
@@ -7,4 +7,4 @@ export const sources = [
   "https://888.hu",
 ];
 
-export const mainURL = "https://antichamber-news.herokuapp.com";
+export const apiMainURL = "https://antichamber-news.herokuapp.com";

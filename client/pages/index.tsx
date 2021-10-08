@@ -96,7 +96,7 @@ const Home: NextPage<Props> = ({ articles }) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
-    `${apiMainURL}/articles?createdAt=${dayjs(new Date()).format("YYYY/MM/DD")}`
+    `${apiMainURL}/articles?createdAt=${dayjs().format("YYYY/MM/DD")}`
   );
 
   const articles: Article[] = await res.json();

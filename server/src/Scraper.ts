@@ -5,9 +5,7 @@ import puppeteer, { Browser } from "puppeteer";
 export async function scraper(pageToGo: string, scrapeSelector: string) {
   let browser: Browser;
   try {
-    browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(pageToGo);
 

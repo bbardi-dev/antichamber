@@ -4,8 +4,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = __importDefault(require("./prisma/client"));
+const scraper_1 = require("./scraper");
 function default_1(app) {
     app.get("/", (_, res) => res.send("Hello World"));
+    app.get("/super-secret-scrape", async (_, res) => {
+        try {
+            await (0, scraper_1.scraper)("https://444.hu", ".item__title > a");
+            await (0, scraper_1.scraper)("https://telex.hu", ".article_title > a");
+            await (0, scraper_1.scraper)("https://index.hu", ".cikkcim>a");
+            await (0, scraper_1.scraper)("https://hvg.hu", ".text-holder>.heading-3>a");
+            await (0, scraper_1.scraper)("https://24.hu", ".m-articleWidget__link");
+            await (0, scraper_1.scraper)("https://888.hu", "figcaption>a, div.text>a");
+            return res.status(200).send("Scrape successful");
+        }
+        catch (error) {
+            return res
+                .status(500)
+                .send("Internal Server Error, Please try again later");
+        }
+    });
     app.get("/articles", async (req, res) => {
         try {
             let articles = [];

@@ -10,7 +10,9 @@ const puppeteer_1 = __importDefault(require("puppeteer"));
 async function scraper(pageToGo, scrapeSelector) {
     let browser;
     try {
-        browser = await puppeteer_1.default.launch();
+        browser = await puppeteer_1.default.launch({
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        });
         const page = await browser.newPage();
         await page.goto(pageToGo);
         const final = await page.$$eval(scrapeSelector, (items) => {

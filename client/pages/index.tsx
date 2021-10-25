@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import dayjs from "dayjs";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useEffect, useState } from "react";
@@ -94,9 +94,9 @@ const Home: NextPage<Props> = ({ articles }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch(
-    `${apiMainURL}/articles?createdAt=${dayjs(new Date()).format("YYYY/MM/DD")}`
+    `${apiMainURL}/articles?createdAt=${dayjs().format("YYYY/MM/DD")}`
   );
 
   const articles: Article[] = await res.json();

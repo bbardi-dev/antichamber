@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import dayjs from "dayjs";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useEffect, useState } from "react";
@@ -12,22 +12,23 @@ interface Article {
   link: string;
 }
 
-interface Props {
-  articles: Article[];
-}
-
-const Home: NextPage<Props> = ({ articles }) => {
+const Home: NextPage = () => {
   const [date, setDate] = useState<Date | null>(new Date());
-  const [currentArticles, setCurrentArticles] = useState(articles);
+  const [currentArticles, setCurrentArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (date !== null) {
+      if (!currentArticles) setLoading(true);
       fetch(
         `${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`
       )
         .then((res) => res.json())
-        .then((data) => setCurrentArticles(data))
+        .then((data) => {
+          setCurrentArticles(data);
+          setLoading(false);
+        })
         .catch((err) => console.log(err));
     }
   }, [date]);
@@ -37,6 +38,8 @@ const Home: NextPage<Props> = ({ articles }) => {
       setDate(new Date());
     }
   }, [searchQuery]);
+
+  if (loading) return <h2 style={{ marginTop: "5rem" }}>Betöltés...</h2>;
 
   return (
     <>
@@ -92,20 +95,6 @@ const Home: NextPage<Props> = ({ articles }) => {
       )}
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(
-    `${apiMainURL}/articles?createdAt=${dayjs().format("YYYY/MM/DD")}`
-  );
-
-  const articles: Article[] = await res.json();
-
-  return {
-    props: {
-      articles,
-    },
-  };
 };
 
 export default Home;

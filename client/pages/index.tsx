@@ -24,7 +24,10 @@ const Home: NextPage = () => {
       fetch(
         `${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`
       )
-        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
         .then((data) => {
           setCurrentArticles(data);
           setLoading(false);

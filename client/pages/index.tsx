@@ -32,7 +32,15 @@ const Home: NextPage = () => {
           setCurrentArticles(data);
           setLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          if (err instanceof TypeError) {
+            setLoading(true);
+            setTimeout(() => {
+              setDate(new Date());
+            }, 1000 * 15);
+          }
+        });
     }
   }, [date]);
 

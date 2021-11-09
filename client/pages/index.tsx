@@ -15,12 +15,12 @@ interface Article {
 const Home: NextPage = () => {
   const [date, setDate] = useState<Date | null>(new Date());
   const [currentArticles, setCurrentArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (date !== null) {
-      if (!currentArticles) setLoading(true);
+      if (currentArticles.length === 0) setLoading(true);
       fetch(
         `${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`
       )
@@ -33,12 +33,12 @@ const Home: NextPage = () => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
+          console.log("THE ERROR IS :", err instanceof TypeError, err);
           if (err instanceof TypeError) {
             setLoading(true);
             setTimeout(() => {
               setDate(new Date());
-            }, 1000 * 15);
+            }, 1000 * 30);
           }
         });
     }
@@ -70,6 +70,7 @@ const Home: NextPage = () => {
           value={date}
         />
       </div>
+
       {currentArticles.length > 0 ? (
         <div className='news-grid'>
           {scrapedSources.map((source) => (

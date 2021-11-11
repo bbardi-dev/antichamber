@@ -38,7 +38,7 @@ const Home: NextPage = () => {
             setLoading(true);
             setTimeout(() => {
               setDate(new Date());
-            }, 1000 * 30);
+            }, 1000 * 15);
           }
         });
     }
@@ -50,7 +50,13 @@ const Home: NextPage = () => {
     }
   }, [searchQuery]);
 
-  if (loading) return <h2 style={{ marginTop: "5rem" }}>Betöltés...</h2>;
+  if (loading)
+    return (
+      <div className='loader-container'>
+        <h2 style={{ marginTop: "5rem" }}>Betöltés...</h2>
+        <span className='loader'></span>
+      </div>
+    );
 
   return (
     <>

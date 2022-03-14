@@ -21,9 +21,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (date !== null) {
       if (currentArticles.length === 0) setLoading(true);
-      fetch(
-        `${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`
-      )
+      fetch(`${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`)
         .then((res) => {
           console.log(res);
           return res.json();
@@ -55,6 +53,7 @@ const Home: NextPage = () => {
       <div className='loader-container'>
         <h2 style={{ marginTop: "5rem" }}>Betöltés...</h2>
         <span className='loader'></span>
+        <h4>(Ingyenes szerver miatt sokáig tarthat...)</h4>
       </div>
     );
 
@@ -86,17 +85,8 @@ const Home: NextPage = () => {
               </h2>
               {currentArticles.map((a) =>
                 a.source === source ? (
-                  <article
-                    className={source.replace(/^.*?:\/\//, "")}
-                    key={a.link}
-                  >
-                    <a
-                      href={
-                        a.link.includes("https://")
-                          ? a.link
-                          : `${a.source}${a.link}`
-                      }
-                    >
+                  <article className={source.replace(/^.*?:\/\//, "")} key={a.link}>
+                    <a href={a.link.includes("https://") ? a.link : `${a.source}${a.link}`}>
                       <p>{a.title}</p>
                     </a>
                     <span>{a.createdAt}</span>
@@ -107,9 +97,7 @@ const Home: NextPage = () => {
           ))}
         </div>
       ) : (
-        <h2 style={{ marginTop: "5rem" }}>
-          Nem találhatóak cikkek az adott paraméterekkel
-        </h2>
+        <h2 style={{ marginTop: "5rem" }}>Nem találhatóak cikkek az adott paraméterekkel</h2>
       )}
     </>
   );

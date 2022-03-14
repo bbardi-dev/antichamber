@@ -9,7 +9,7 @@ export default function (app: Express) {
   app.get("/super-secret-scrape", async (_, res) => {
     try {
       await scraper("https://444.hu", ".item__title > a");
-      await scraper("https://telex.hu", ".article_title > a");
+      await scraper("https://telex.hu", ".leader > .item__content > .item__details > .item__title");
       await scraper("https://index.hu", ".cikkcim>a");
       await scraper("https://hvg.hu", ".text-holder>.heading-3>a");
       await scraper("https://24.hu", ".m-articleWidget__link");
@@ -17,9 +17,7 @@ export default function (app: Express) {
 
       return res.status(200).send("Scrape successful");
     } catch (error) {
-      return res
-        .status(500)
-        .send("Internal Server Error, Please try again later");
+      return res.status(500).send("Internal Server Error, Please try again later");
     }
   });
 
@@ -35,8 +33,7 @@ export default function (app: Express) {
 
       if (
         !Object.keys(req.query).every(
-          (k) =>
-            k === "title" || k === "source" || k === "link" || k === "createdAt"
+          (k) => k === "title" || k === "source" || k === "link" || k === "createdAt"
         )
       ) {
         return res.status(404).send("Cannot find resource");
@@ -59,9 +56,7 @@ export default function (app: Express) {
 
       return res.status(200).json(articles);
     } catch (error) {
-      return res
-        .status(500)
-        .send("Internal Server Error, Please try again later");
+      return res.status(500).send("Internal Server Error, Please try again later");
     }
   });
 }

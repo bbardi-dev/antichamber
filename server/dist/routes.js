@@ -10,7 +10,7 @@ function default_1(app) {
     app.get("/super-secret-scrape", async (_, res) => {
         try {
             await (0, scraper_1.scraper)("https://444.hu", ".item__title > a");
-            await (0, scraper_1.scraper)("https://telex.hu", ".article_title > a");
+            await (0, scraper_1.scraper)("https://telex.hu", ".leader > .item__content > .item__details > .item__title");
             await (0, scraper_1.scraper)("https://index.hu", ".cikkcim>a");
             await (0, scraper_1.scraper)("https://hvg.hu", ".text-holder>.heading-3>a");
             await (0, scraper_1.scraper)("https://24.hu", ".m-articleWidget__link");
@@ -18,9 +18,7 @@ function default_1(app) {
             return res.status(200).send("Scrape successful");
         }
         catch (error) {
-            return res
-                .status(500)
-                .send("Internal Server Error, Please try again later");
+            return res.status(500).send("Internal Server Error, Please try again later");
         }
     });
     app.get("/articles", async (req, res) => {
@@ -47,9 +45,7 @@ function default_1(app) {
             return res.status(200).json(articles);
         }
         catch (error) {
-            return res
-                .status(500)
-                .send("Internal Server Error, Please try again later");
+            return res.status(500).send("Internal Server Error, Please try again later");
         }
     });
 }

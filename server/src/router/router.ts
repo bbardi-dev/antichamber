@@ -1,25 +1,13 @@
-import prisma from "./prisma/client";
+import prisma from "../prisma/client";
 import { Express, Request, Response } from "express";
 import { Article } from ".prisma/client";
-import { scraper } from "./scraper";
+import { scrapeArticlesHandler } from "../controllers/scrape.controller";
+import { targets } from "src/utils/scrapeTargets";
 
 export default function (app: Express) {
-  app.get("/", (_, res) => res.send("Hello World"));
+  app.get("/healthcheck", (_, res) => res.send("I am okay"));
 
-  app.get("/super-secret-scrape", async (_, res) => {
-    try {
-      await scraper("https://444.hu", ".item__title > a");
-      await scraper("https://telex.hu", ".leader > .item__content > .item__details > .item__title");
-      await scraper("https://index.hu", ".cikkcim>a");
-      await scraper("https://hvg.hu", ".text-holder>.heading-3>a");
-      await scraper("https://24.hu", ".m-articleWidget__link");
-      await scraper("https://888.hu", "figcaption>a, div.text>a");
-
-      return res.status(200).send("Scrape successful");
-    } catch (error) {
-      return res.status(500).send("Internal Server Error, Please try again later");
-    }
-  });
+  app.get("/super-secret-scrape", scrapeArticlesHandler(targets));
 
   app.get("/articles", async (req: Request, res: Response) => {
     try {

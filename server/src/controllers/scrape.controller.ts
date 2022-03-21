@@ -7,7 +7,7 @@ export const scrapeArticlesHandler = (targets: ScrapeTarget[]) => async (_: Requ
   try {
     for (const t of targets) {
       let articles = await scrapeArticlesForPage(t);
-      if (articles) saveScrapedArticles(articles);
+      if (articles) await saveScrapedArticles(articles);
       else console.error("Could not save articles for this page");
     }
 

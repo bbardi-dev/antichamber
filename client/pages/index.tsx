@@ -20,12 +20,11 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (date !== null) {
-      if (currentArticles.length === 0) setLoading(true);
+      if (currentArticles.length === 0) {
+        setLoading(true);
+      }
       fetch(`${apiMainURL}/articles?createdAt=${dayjs(date).format("YYYY/MM/DD")}`)
-        .then((res) => {
-          console.log(res);
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((data) => {
           setCurrentArticles(data);
           setLoading(false);
@@ -36,7 +35,7 @@ const Home: NextPage = () => {
             setLoading(true);
             setTimeout(() => {
               setDate(new Date());
-            }, 1000 * 15);
+            }, 1000 * 10);
           }
         });
     }

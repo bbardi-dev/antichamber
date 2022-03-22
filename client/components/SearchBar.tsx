@@ -16,14 +16,8 @@ interface Props {
   setSearchQuery: Dispatch<SetStateAction<string>>;
 }
 
-const SearchBar: NextPage<Props> = ({
-  setCurrentArticles,
-  setDate,
-  searchQuery,
-  setSearchQuery,
-}) => {
+const SearchBar: NextPage<Props> = ({ setCurrentArticles, setDate, searchQuery, setSearchQuery }) => {
   useEffect(() => {
-    console.log(searchQuery);
     if (searchQuery.length > 2) {
       fetch(`${apiMainURL}/articles?title=${searchQuery}`)
         .then((res) => res.json())

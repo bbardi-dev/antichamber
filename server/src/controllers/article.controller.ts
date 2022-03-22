@@ -12,7 +12,7 @@ export async function articleHandler(req: Request, res: Response) {
       return res.status(200).json(articles);
     }
 
-    //
+    //all query params have to fall into at least one of these
     if (
       !Object.keys(req.query).every(
         (k) => k === "title" || k === "source" || k === "link" || k === "createdAt"
@@ -24,7 +24,20 @@ export async function articleHandler(req: Request, res: Response) {
     //handle query params
     const selectedArticles: Record<string, any> = {};
 
-    //case insesitive search
+    //case insesitive search in this pattern for prisma
+    /*
+      where: {
+        title: {
+          contains: req.query[title],
+          mode: "insensitive",
+        },
+        createdAt: {
+          contains: req.query[createdAt],
+          mode: "insensitive",
+        }
+        ...etc.
+      }
+    */
     for (const key in req.query) {
       if (!selectedArticles[key])
         selectedArticles[key] = {

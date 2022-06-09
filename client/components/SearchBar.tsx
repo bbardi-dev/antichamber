@@ -1,6 +1,7 @@
 import { NextPage } from "next";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { apiMainURL } from "../constants";
+import useDebounce from "../hooks/useDebounce";
 
 interface Article {
   createdAt: string;
@@ -17,15 +18,18 @@ interface Props {
 }
 
 const SearchBar: NextPage<Props> = ({ setCurrentArticles, setDate, searchQuery, setSearchQuery }) => {
+  const debouncedQuery = useDebounce(searchQuery, 500);
+
   useEffect(() => {
-    if (searchQuery.length > 2) {
-      fetch(`${apiMainURL}/articles?title=${searchQuery}`)
+    if (debouncedQuery.length > 2) {
+      fetch(`${apiMainURL}/articles?title=${debouncedQuery}`)
         .then((res) => res.json())
         .then((data) => setCurrentArticles(data))
         .catch((err) => console.log(err));
       setDate(null);
+      console.log("Was fetched");
     }
-  }, [searchQuery, setDate, setCurrentArticles]);
+  }, [debouncedQuery, setDate, setCurrentArticles]);
 
   return (
     <div className='search'>

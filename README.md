@@ -22,7 +22,7 @@ Deployed at: "https://newsscraper-inky.vercel.app/"
 
 ## Tech Stack
 
-**Client:** Typescript, React, Next.js, Sass, Deployed on Vercel
+**Client:** Typescript, React, Next.js, Scss, Deployed on Vercel
 
 **Server**: Typescript, Node.js, Express.js, REST API, Prisma(PostgreSQL), Puppeteer, Deployed on Heroku, CRON
 

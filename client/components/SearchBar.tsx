@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { apiMainURL } from "../constants";
 import useDebounce from "../hooks/useDebounce";
 

@@ -6,6 +6,8 @@ Only in Hungarian because of the nature of project.
 
 ## Demo
 
+(LIVE DEMO CURRENTLY DOWN BECAUSE OF HEROKU SHUTDOWN OF FREE TIERS - FIX WIP)
+
 Deployed at: "https://newsscraper-inky.vercel.app/"
 
 ![Demo](newsscraper.gif)

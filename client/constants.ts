@@ -7,4 +7,4 @@ export const scrapedSources = [
   "https://888.hu",
 ];
 
-export const apiMainURL = "https://antichamber-news.herokuapp.com";
+export const apiMainURL = "https://newsscraper-server.onrender.comv";
